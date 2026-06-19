@@ -1,0 +1,18 @@
+apiVersion: k3d.io/v1alpha5
+# "Simple" permet de créer rapidement un cluster K3s avec une configuration basique.
+
+kind: Simple
+metadata:
+  name: devops-cluster
+servers: 1 # Nombre de nœuds serveur (control plane / master
+agents: 2 # Nombre de nœuds workers
+ports:
+  - port: 8080:80
+    nodeFilters:
+      - loadbalancer
+options:
+  k3d:
+  # Attend que le cluster soit complètement prêt
+    # avant de terminer la commande de création
+    wait: true
+    timeout: "60s" # Temps maximal d'attente avant d'abandonner
