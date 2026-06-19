@@ -16,3 +16,8 @@ options:
     # avant de terminer la commande de création
     wait: true
     timeout: "60s" # Temps maximal d'attente avant d'abandonner
+  k3s:
+    extraArgs:
+      - arg: --node-taint=node-role.kubernetes.io/control-plane=true:NoSchedule
+        nodeFilters:
+          - server:*
