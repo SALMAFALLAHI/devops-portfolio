@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: devops-portfolio-svc
   namespace: devops-portfolio
+  labels:
+    app: devops-portfolio 
 spec:
   selector:
     app: devops-portfolio
