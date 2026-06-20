@@ -1,0 +1,15 @@
+#Le middleware security-headers ajoute plusieurs en-têtes HTTP de sécurité afin de renforcer la protection de l'application.apiVersion: traefik.io/v1alpha1
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: security-headers
+  namespace: devops-portfolio
+spec:
+  headers:
+    frameDeny: true #Ajoute l'en-tête :X-Frame-Options: DENY, Contre les attaques de Clickjacking.
+
+
+    contentTypeNosniff: true #Force le navigateur à respecter le type de contenu déclaré par le serveur.
+    browserXssFilter: true #Active le filtre XSS du navigateur pour détecter et bloquer les attaques de type Cross-Site Scripting.
+    
+ 

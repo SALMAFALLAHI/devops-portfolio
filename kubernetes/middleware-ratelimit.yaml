@@ -1,0 +1,10 @@
+#limiter le nombre de requêtes qu'un utilisateur peut envoyer à  l'application.
+apiVersion: traefik.io/v1alpha1
+kind: Middleware #composant qui traite les requêtes avant qu'elles n'atteignent l'application.
+metadata:
+  name: rate-limit
+  namespace: devops-portfolio
+spec:
+  rateLimit:
+    average: 10
+    burst: 20

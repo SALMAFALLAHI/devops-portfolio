@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-portfolio-svc
+  namespace: devops-portfolio
+spec:
+  selector:
+    app: devops-portfolio
+  ports:
+    - port: 80
+      targetPort: 8000
+  type: ClusterIP #accessible seulement depuis l'intérieur du cluster
