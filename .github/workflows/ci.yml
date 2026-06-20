@@ -30,30 +30,28 @@ jobs:
           pytest -v
 
   build-and-push:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      needs: test
+      runs-on: ubuntu-latest
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      permissions:
+        contents: read
+        packages: write
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
 
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Set lowercase repository owner
-        run: echo "REPO_OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+        - name: Log in to GitHub Container Registry
+          uses: docker/login-action@v3
+          with:
+            registry: ghcr.io
+            username: ${{ github.actor }}
+            password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/devops-portfolio:latest
-            ghcr.io/${{ github.repository_owner }}/devops-portfolio:${{ github.sha }}
+        - name: Build and push image
+          uses: docker/build-push-action@v5
+          with:
+            context: .
+            push: true
+            tags: |
+              ghcr.io/salmafallahi/devops-portfolio:latest
+              ghcr.io/salmafallahi/devops-portfolio:${{ github.sha }}
