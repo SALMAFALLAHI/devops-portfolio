@@ -8,7 +8,15 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="DevOps Portfolio API")
 
-# Données fictives en mémoire (pas de vraie base de données pour l'instant)
+REQUEST_COUNT = 0
+
+@app.middleware("http")
+async def count_requests(request, call_next):
+    global REQUEST_COUNT
+    REQUEST_COUNT += 1
+    response = await call_next(request)
+    return response
+
 items = [
     {"id": 1, "name": "Terraform"},
     {"id": 2, "name": "Kubernetes"},
@@ -17,6 +25,11 @@ items = [
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.get("/metrics")
+def metrics():
+    content = f"# HELP http_requests_total Total HTTP requests\n# TYPE http_requests_total counter\nhttp_requests_total {REQUEST_COUNT}\n"
+    return Response(content=content, media_type="text/plain")
 
 @app.get("/items")
 def get_items():
