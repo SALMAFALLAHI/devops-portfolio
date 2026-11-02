@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 jobs:
   zap-api-scan:
@@ -31,5 +32,5 @@ jobs:
         with:
           target: 'http://localhost:8000/openapi.json'
           format: openapi
-          allow_issue_writing: false
-          fail_action: false
+          allow_issue_writing: 'false'
+          fail_action: 'false'
