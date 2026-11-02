@@ -1,7 +1,10 @@
-name: DAST - OWASP ZAP
+name: DAST - OWASP ZAP Scan
 
 on:
+  push:
+    branches: [ feature/zap-dast, main ]
   pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -9,20 +12,21 @@ permissions:
 
 jobs:
   zap-api-scan:
+    name: OWASP ZAP API Scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build image
+      - name: Build image pour test
         run: docker build -t app-under-test .
 
-      - name: Start app
+      - name: Démarrer l'application FastAPI
         run: |
           docker run -d -p 8000:8000 --name app app-under-test
           curl --retry 15 --retry-delay 2 --retry-connrefused -s http://localhost:8000/openapi.json > /dev/null
 
-      - name: ZAP API scan
+      - name: OWASP ZAP API Scan
         uses: zaproxy/action-api-scan@v0.10.0
         with:
           target: 'http://localhost:8000/openapi.json'
