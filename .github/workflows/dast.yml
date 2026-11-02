@@ -22,12 +22,21 @@ jobs:
       - name: Build image pour test
         run: docker build -t app-under-test .
 
-      - name: Démarrer l'application FastAPI
+    - name: Démarrer l'application FastAPI
         run: |
           docker run -d -p 8000:8000 --name app app-under-test
-          # Vérification que l'API répond bien sur le port 8000
-          curl --retry 15 --retry-delay 2 --retry-connrefused -s http://localhost:8000/openapi.json > /dev/null
-
+          # On attend que l'API réponde proprement avec une boucle sécurisée
+          for i in {1..15}; do
+            if curl -s http://localhost:8000/openapi.json > /dev/null; then
+              echo "API is up and running!"
+              exit 0
+            fi
+            echo "Waiting for FastAPI to start..."
+            sleep 2
+          ]
+          echo "API failed to start in time"
+          docker logs app
+          exit 1
       - name: OWASP ZAP API Scan
         uses: zaproxy/action-api-scan@v0.10.0
         with:
