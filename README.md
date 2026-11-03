@@ -156,6 +156,18 @@ kubectl port-forward -n monitoring svc/monitoring-kube-prometheus-prometheus 909
 ```
 
 ---
+## Security & Hardening
+
+L'API intègre des en-têtes de sécurité HTTP configurés via un middleware pour se conformer aux bonnes pratiques OWASP :
+- `X-Content-Type-Options: nosniff` (Prévention du MIME-sniffing)
+- `Cross-Origin-Resource-Policy: same-origin` (Protection contre la lecture d'origine croisée)
+
+Les scans de sécurité DAST automatisés sont exécutés à chaque pipeline via OWASP ZAP.
+
+
+
+
+---
 
 ## Défis techniques rencontrés et solutions
 
