@@ -1,6 +1,6 @@
 import logging
 import os
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, Request, Response
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 logging.basicConfig(level=LOG_LEVEL)
@@ -11,10 +11,16 @@ app = FastAPI(title="DevOps Portfolio API")
 REQUEST_COUNT = 0
 
 @app.middleware("http")
-async def count_requests(request, call_next):
+async def security_and_metrics_middleware(request: Request, call_next):
     global REQUEST_COUNT
     REQUEST_COUNT += 1
+    
     response = await call_next(request)
+    
+    # Ajout des en-têtes de sécurité
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+    
     return response
 
 items = [

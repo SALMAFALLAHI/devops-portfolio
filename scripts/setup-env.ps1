@@ -4,7 +4,8 @@
 $paths = @(
     "C:\Users\msi\AppData\Local\Microsoft\WinGet\Packages\k3d.k3d_Microsoft.Winget.Source_8wekyb3d8bbwe",
     "C:\Users\msi\AppData\Local\Microsoft\WinGet\Packages\Helm.Helm_Microsoft.Winget.Source_8wekyb3d8bbwe\windows-amd64",
-    "C:\Program Files (x86)\GnuWin32\bin"
+    "C:\Program Files (x86)\GnuWin32\bin",
+    "C:\Users\msi\AppData\Local\Microsoft\WinGet\Packages\Derailed.k9s_Microsoft.Winget.Source_8wekyb3d8bbwe"
 )
 
 foreach ($path in $paths) {
